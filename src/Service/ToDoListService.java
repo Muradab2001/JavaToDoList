@@ -101,8 +101,9 @@ public class ToDoListService {
 
         return tasks;
     }
+
     public Task findTaskById(Connection connection, int taskId) {
-        String sql = "SELECT * FROM tasks WHERE id = ?";
+        String sql = "SELECT * FROM tasks WHERE id = ? AND isDelete = false";
         try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
             preparedStatement.setInt(1, taskId);
             try (ResultSet resultSet = preparedStatement.executeQuery()) {
