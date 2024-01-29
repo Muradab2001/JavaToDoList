@@ -13,7 +13,6 @@ public class Main {
         DbContext dbContext = new DbContext();
         var connection = dbContext.connect("jdbc:postgresql://localhost:5432/postgres", "postgres", "12345");
         if (connection != null) {
-
             boolean exit = false;
             while (!exit) {
                 printMenu();
@@ -60,16 +59,12 @@ public class Main {
                 }
             }
         }
-
-
     }
 
     private static void listAllTasks(ToDoListService toDoListService, Connection connection) {
         List<Task> tasks = toDoListService.listTasks(connection);
         System.out.println("Tasks:");
-        for (Task task : tasks) {
-            System.out.println(task.getId() + ". " + task.getDescription());
-        }
+        tasks.forEach(System.out::println);
     }
 
     private static void printMenu() {
@@ -85,8 +80,6 @@ public class Main {
 
     private static void listTasksWithStatus(ToDoListService toDoListService, Connection connection, boolean isDone) {
         List<Task> tasks = toDoListService.findTasksWithStatus(connection, isDone);
-        for (Task task : tasks) {
-            System.out.println(task.getId() + ". " + task.getDescription());
-        }
+        tasks.forEach(System.out::println);
     }
 }
