@@ -101,4 +101,26 @@ public class ToDoListService {
 
         return tasks;
     }
+    public Task findTaskById(Connection connection, int taskId) {
+        String sql = "SELECT * FROM tasks WHERE id = ?";
+        try (PreparedStatement preparedStatement = connection.prepareStatement(sql)) {
+            preparedStatement.setInt(1, taskId);
+            try (ResultSet resultSet = preparedStatement.executeQuery()) {
+                if (resultSet.next()) {
+                    int foundTaskId = resultSet.getInt("id");
+                    String description = resultSet.getString("description");
+                    boolean isDone = resultSet.getBoolean("isDone");
+                    boolean isDelete = resultSet.getBoolean("isDelete");
+                    Task task = new Task(foundTaskId, description);
+                    task.setDone(isDone);
+                    task.setDelete(isDelete);
+                    return task;
+                }
+            }
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+        return null;
+    }
+
 }

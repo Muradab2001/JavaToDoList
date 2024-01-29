@@ -50,7 +50,12 @@ public class Main {
                         listTasksWithStatus(toDoListService, connection, status);
                         break;
                     case 6:
-                        System.out.println("Exiting the application. Goodbye!");
+                        System.out.print("Enter the task ID to find: ");
+                        int taskIdToFind = scanner.nextInt();
+                        scanner.nextLine();
+                        findTaskById(toDoListService, connection, taskIdToFind);
+                        break;
+                    case 7:
                         exit = true;
                         break;
                     default:
@@ -74,7 +79,8 @@ public class Main {
         System.out.println("3. Update a task");
         System.out.println("4. Delete a task");
         System.out.println("5. List tasks by status");
-        System.out.println("6. Exit");
+        System.out.println("6. Find Task by ID");
+        System.out.println("7. Exit");
     }
 
 
@@ -82,4 +88,13 @@ public class Main {
         List<Task> tasks = toDoListService.findTasksWithStatus(connection, isDone);
         tasks.forEach(System.out::println);
     }
+    private static void findTaskById(ToDoListService toDoListService, Connection connection, int taskId) {
+        Task foundTask = toDoListService.findTaskById(connection, taskId);
+        if (foundTask != null) {
+            System.out.println(foundTask);
+        } else {
+            System.out.println("not found.");
+        }
+    }
+
 }
